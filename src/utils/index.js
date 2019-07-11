@@ -14,7 +14,7 @@ export default function fibChecker(number) {
     return true;
   }
 
-  for (let i = 3; i <= number; i += 1) {
+  for (let i = 3; i <= number; i += set[0]) {
     if (i % (set[0] + set[1]) === 0) {
       set[0] = set[1];
       set[1] = i;

@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+// Internal Dependencies
+import fibChecker from './utils';
+
 // Local Variables
 const Main = styled.main`
   display: flex;
@@ -56,6 +59,22 @@ const Button = styled.button`
   padding: 8px 16px;
 `;
 
+const List = styled.ul`
+  border-radius: 4px;
+  border: 2px solid rebeccapurple;
+  background-color: #fafafa;
+  list-style: none;
+  text-align: center;
+  padding: 0;
+  width: 320px;
+`;
+
+const ListItem = styled.li`
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+  padding: 8px;
+`;
+
 // Component Definition
 function App() {
   const [value, setValue] = useState('');
@@ -76,11 +95,27 @@ function App() {
 
   // }
 
+  function handleSetAttempts(attemptData) {
+    setAttempts([ ...attempts, attemptData ]);
+  }
+
   function handleSubmitFib(e) {
     e.preventDefault();
 
     handleSetIsLoading(true);
+    const result = fibChecker(value);
+
+    console.log('result', result);
+
+    handleSetIsLoading(false);
+    setValue('');
+    handleSetAttempts({
+      number: value,
+      result,
+    })
   }
+
+  console.log('attempts', attempts);
 
   return (
     <Main>
@@ -106,10 +141,11 @@ function App() {
           <div>
             {attempts.map(a => {
               return (
-                <div>
-                  <Paragraph>{a.number}</Paragraph>
-                  <Paragraph>{a.result}</Paragraph>
-                </div>
+                <List key="a.number">
+                  <ListItem>
+                    {a.number} • {a.result === true ? 'true' : 'false'}
+                  </ListItem>
+                </List>
               );
             })}
           </div>
